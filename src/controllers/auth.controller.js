@@ -53,7 +53,12 @@ const login = async (req, res) => {
     const verify = await authService.login(user, password);
 
     if (!verify.error) {
-      return res.json({ error: false, message: "Login successful.", user });
+      return res.json({
+        error: false,
+        message: "Login successful.",
+        user,
+        token: verify.token,
+      });
     }
 
     return res.status(400).json({ verify });
