@@ -48,7 +48,8 @@ mongoose.connect(process.env.MONGO_URL).then((connection) => {
       },
     });
   });
-  app.listen(3001, () => {
-    console.log("app listening on port 3001");
+  console.log("connected to mongoDB");
+  app.listen(4000, () => {
+    console.log("app listening on port 4000");
   });
 });

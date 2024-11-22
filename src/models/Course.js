@@ -2,6 +2,10 @@ const { Schema, model, Types } = require("mongoose");
 
 const courseSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
     category: {
       type: String,
       enum: [
@@ -12,9 +16,13 @@ const courseSchema = new Schema(
       ],
       required: true,
     },
-    duration: {
+    startFrom: {
       type: String,
-      required: true,
+      reguired: true,
+    },
+    endAt: {
+      type: String,
+      reguired: true,
     },
     enrolledStudents: [
       {

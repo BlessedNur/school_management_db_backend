@@ -20,9 +20,7 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: function () {
-        return this.role !== "student";
-      },
+      required: true,
     },
   },
   { timestamps: true }

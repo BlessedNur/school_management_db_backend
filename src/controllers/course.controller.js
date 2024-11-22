@@ -2,12 +2,18 @@ const Course = require("../models/Course");
 
 const addCourse = async (req, res) => {
   try {
-    const { category, duration } = req.body;
-    const existingCourse = await Course.findOne({ category });
+    const { name, category, startFrom, endAt } = req.body;
+    const existingCourse = await Course.findOne({ name });
     if (existingCourse) {
-      return res.status(400).json({ error: "Course already exists" });
+      return res.status(400).json({ error: `Course ${name} already exists` });
     }
-    const newCourse = new Course({ category, duration });
+
+    const newCourse = new Course({
+      name,
+      category,
+      startFrom,
+      endAt,
+    });
     await newCourse.save();
     res.json({ message: "Course added successfully", course: newCourse });
   } catch (error) {
@@ -37,6 +43,17 @@ const deleteCourse = async (req, res) => {
   } catch (error) {
     console.error("Error deleting course:", error);
     res.status(500).json({ error: "Server error" });
+  }
+};
+const updateCourse = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const body = req.body;
+    await Course.findByIdAndUpdate(courseId, { ...body });
+    res.status(200).json({ message: "Course updated succesfully" });
+  } catch (err) {
+    res.status(404).json({ message: "Course not found" });
+    console.log(err);
   }
 };
 
@@ -70,7 +87,6 @@ const enroll = async (req, res) => {
       });
     }
 
-   
     course.enrolledStudents.push(...studentIds);
     course.enrolledInstructors.push(...instructorIds);
 
@@ -86,4 +102,4 @@ const enroll = async (req, res) => {
   }
 };
 
-module.exports = { addCourse, getCourse, deleteCourse, enroll };
+module.exports = { addCourse, getCourse, deleteCourse, enroll, updateCourse };

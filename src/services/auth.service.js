@@ -6,11 +6,15 @@ const hashCompare = async (value, hash) => {
   try {
     return await bcrypt.compare(value, hash);
   } catch (error) {
-    console.error("Error comparing hash:", error); // Log the error for better debugging
+    console.error("Error comparing hash:", error);
     return false;
   }
 };
 
+const hashpassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
+};
 // Login function
 const login = async (user, password) => {
   const compare = await hashCompare(password, user.password);
@@ -37,4 +41,5 @@ const login = async (user, password) => {
 module.exports = {
   hashCompare,
   login,
+  hashpassword,
 };
